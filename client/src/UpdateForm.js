@@ -13,6 +13,13 @@ function UpdateForm(props) {
       .catch(err => console.log(err.response));
   };
 
+  const updateMovie = ({title, director, metascore}) => {
+    axios
+      .put(`http://localhost:5000/api/movies/${props.match.params.id}`)
+      .then(res)
+
+  }
+
   useEffect(() => {
     fetchMovie();
   }, [])
@@ -20,7 +27,7 @@ function UpdateForm(props) {
   return (
     <Formik key={movie.id}
     initialValues={{ title: movie.title, director: movie.director, metascore: movie.metascore, }}
-    onSubmit={Function.prototype}
+    onSubmit={updateMovie}
     render={() => (
       <Form className='update-form'>
         <Field name='title' type="text" placeholder='title' />
