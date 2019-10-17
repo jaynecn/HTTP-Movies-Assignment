@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
+import axios from 'axios';
 
 function UpdateForm(props) {
+
+  const [movie, setMovie] = useState({});
   
-  const onLogin = ({ id, title, director, metascore, stars }) => {
-    return props.onLogin({ id, title, director, metascore, stars});
-  }; //???????
+  const fetchMovie = () => {
+    axios
+      .get(`http://localhost:5000/api/movies/${props.match.params.id}`)
+      .then(res => setMovie(res.data))
+      .catch(err => console.log(err.response));
+  };
+
+  useEffect(() => {
+    fetchMovie();
+  }, [])
 
   return (
-    <Formik
-    initialValues={{ id: '', title: '', director: '', metascore: '', stars: []}}
-    onSubmit={onLogin}
+    <Formik key={movie.id}
+    initialValues={{ title: movie.title, director: movie.director, metascore: movie.metascore, }}
+    onSubmit={Function.prototype}
     render={() => (
       <Form className='update-form'>
-        <Field name='id' type="text" placeholder='id' />
         <Field name='title' type="text" placeholder='title' />
         <Field name='director' type="text" placeholder='director' />
-        <Field name='metascore' type="number" placeholder='metascore' />
-        <Field name='stars' type="text" placeholder='stars' />        
+        <Field name='metascore' type="number" placeholder='metascore' />       
         <input type='submit' />
       </Form>
       )}
