@@ -15,10 +15,10 @@ function UpdateForm(props) {
 
   const updateMovie = ({title, director, metascore}) => {
     axios
-      .put(`http://localhost:5000/api/movies/${props.match.params.id}`)
-      .then(res)
-
-  }
+      .put(`http://localhost:5000/api/movies/${props.match.params.id}`, { title, director, metascore })
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err.response));
+  };
 
   useEffect(() => {
     fetchMovie();
