@@ -26,6 +26,15 @@ export default class Movie extends React.Component {
       .catch(err => console.log(err.response));
   };
 
+  updateMovie = ({ id, title, director, metascore, stars}) => {
+    axios.put(`http://localhost:5000/api/update-movie/${id}`,
+    { id, title, director, metascore, stars},
+    )
+      .then((res) => {
+        console.log(res);
+      })
+  }
+
   saveMovie = () => {
     const addToSavedList = this.props.addToSavedList;
     addToSavedList(this.state.movie);
@@ -41,6 +50,9 @@ export default class Movie extends React.Component {
         <MovieCard movie={this.state.movie} />
         <div className="save-button" onClick={this.saveMovie}>
           Save
+        </div>
+        <div className="update-button" onClick={this.updateMovie}>
+          Update
         </div>
       </div>
     );
